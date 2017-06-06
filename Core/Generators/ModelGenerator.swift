@@ -147,6 +147,8 @@ public struct ModelGenerator {
             return SwiftyJSONModelFile()
         case .Marshal:
             return MarshalModelFile()
+        case .Codable:
+            return CodableModelFile()
         }
     }
 }

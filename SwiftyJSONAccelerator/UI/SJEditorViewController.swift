@@ -152,6 +152,12 @@ class SJEditorViewController: NSViewController, NSTextViewDelegate {
             let isFinalClass = self.setAsFinalCheckbox.state == 1 && (modelTypeSelectorSegment.selectedSegment == 1)
             let constructType = self.modelTypeSelectorSegment.selectedSegment == 0 ? ConstructType.StructType : ConstructType.ClassType
             let libraryType = libraryForIndex(self.librarySelector.indexOfSelectedItem)
+            var baseTemplateFilename = "BaseTemplate"
+            
+            if libraryType == JSONMappingLibrary.Codable {
+                baseTemplateFilename = "BaseTemplateCodable"
+            }
+            
             let configuration = ModelGenerationConfiguration.init(
                                                                   filePath: filePath!.appending("/"),
                                                                   baseClassName: baseClassTextField.stringValue,
@@ -162,7 +168,8 @@ class SJEditorViewController: NSViewController, NSTextViewDelegate {
                                                                   modelMappingLibrary: libraryType,
                                                                   supportNSCoding: nsCodingState,
                                                                   isFinalRequired: isFinalClass,
-                                                                  isHeaderIncluded: includeHeaderImportCheckbox.state == 1 ? true : false)
+                                                                  isHeaderIncluded: includeHeaderImportCheckbox.state == 1 ? true : false,
+                                                                  baseTemplateFilename: baseTemplateFilename)
             let modelGenerator = ModelGenerator.init(JSON(object!), configuration)
             let filesGenerated = modelGenerator.generate()
             for file in filesGenerated {
@@ -191,6 +198,8 @@ class SJEditorViewController: NSViewController, NSTextViewDelegate {
             return JSONMappingLibrary.ObjectMapper
         } else if index == 3 {
             return JSONMappingLibrary.Marshal
+        } else if index == 4 {
+            return JSONMappingLibrary.Codable
         }
         return JSONMappingLibrary.SwiftyJSON
     }

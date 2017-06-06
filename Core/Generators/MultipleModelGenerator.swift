@@ -149,12 +149,16 @@ struct MultipleModelGenerator {
         if let type = fromJSON["construct_type"].string, type == "struct" {
             constructType = ConstructType.StructType
         }
+        var baseTemplateFilename = "BaseTemplate"
         var jsonLibrary = JSONMappingLibrary.SwiftyJSON
         if let type = fromJSON["model_mapping_library"].string {
             if type == JSONMappingLibrary.ObjectMapper.rawValue {
                 jsonLibrary = JSONMappingLibrary.ObjectMapper
             } else if type == JSONMappingLibrary.Marshal.rawValue {
                 jsonLibrary = JSONMappingLibrary.Marshal
+            } else if type == JSONMappingLibrary.Codable.rawValue {
+                jsonLibrary = JSONMappingLibrary.Codable
+                baseTemplateFilename = "BaseTemplateCodable"
             }
         }
         let config = ModelGenerationConfiguration.init(filePath: fromJSON["destination_path"].string ?? "",
@@ -166,7 +170,8 @@ struct MultipleModelGenerator {
                                                        modelMappingLibrary: jsonLibrary,
                                                        supportNSCoding: fromJSON["support_nscoding"].boolValue,
                                                        isFinalRequired: fromJSON["is_final_required"].boolValue,
-                                                       isHeaderIncluded: fromJSON["is_header_included"].boolValue)
+                                                       isHeaderIncluded: fromJSON["is_header_included"].boolValue,
+                                                       baseTemplateFilename: baseTemplateFilename)
 
         let response = config.isConfigurationValid()
         if response.isValid {

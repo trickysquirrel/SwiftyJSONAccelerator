@@ -42,7 +42,7 @@ struct NameGenerator {
 
    - returns: A generated string representation of the variable name.
    */
-  static func fixVariableName(_ variableName: String) -> String {
+   static func fixVariableName(_ variableName: String, shouldLowerCaseName: Bool = false) -> String {
 
     var _variableName = replaceKeywords(variableName)
     _variableName.replaceOccurrencesOfStringsWithString(["-", "_"], " ")
@@ -50,7 +50,12 @@ struct NameGenerator {
 
     var finalVariableName = ""
     for (index, var element) in _variableName.components(separatedBy: " ").enumerated() {
-      index == 0 ? element.lowerCaseFirst() : element.uppercaseFirst()
+        if shouldLowerCaseName {
+            index == 0 ? element.lowerCaseFirst() : element.uppercaseFirst()
+        }
+        else {
+            index == 0 ? element.noChange() : element.uppercaseFirst()
+        }
       finalVariableName.append(element)
     }
     return finalVariableName

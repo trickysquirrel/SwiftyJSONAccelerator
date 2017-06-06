@@ -32,6 +32,8 @@ struct ModelGenerationConfiguration {
     var isFinalRequired: Bool
     /// Should header be included.
     var isHeaderIncluded: Bool
+    /// BaseTemplate file name.
+    var baseTemplateFilename: String
 
     /// Checks if the configuration is valid as per the rules of Swift.
     ///
@@ -52,6 +54,7 @@ struct ModelGenerationConfiguration {
         prefix = ""
         filePath = ""
         baseClassName = ""
+        baseTemplateFilename = "BaseTemplate"
     }
 
 }

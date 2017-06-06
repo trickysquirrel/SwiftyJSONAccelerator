@@ -52,6 +52,7 @@ enum JSONMappingLibrary: String {
   case SwiftyJSON
   case ObjectMapper
   case Marshal
+  case Codable
 }
 
 /**
@@ -72,3 +73,4 @@ enum PropertyType: String {
   case EmptyArray
   case NullType
 }
+

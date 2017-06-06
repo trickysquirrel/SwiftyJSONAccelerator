@@ -29,7 +29,12 @@ extension String {
   mutating func lowerCaseFirst() {
     self = first.lowercased() + String(characters.dropFirst())
   }
-
+    
+    mutating func noChange() {
+        self = String(characters)
+    }
+    
+    
   /**
    Replaces occurrence of multiple strings with a single string.
 
